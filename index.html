@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Family Picture</title>
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  margin-top: 40px;
+}
+video, canvas {
+  width: 400px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 10px;
+  margin: 10px;
+}
+</style>
+</head>
+<body>
+
+<h2>Family Picture</h2>
+
+<video id="video" autoplay playsinline></video>
+<br>
+
+<button id="startBtn">Enable Camera</button>
+<button id="captureBtn">Capture</button>
+
+<br>
+<canvas id="canvas"></canvas>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+
+document.getElementById("startBtn").onclick = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: true
+    });
+
+    video.srcObject = stream;
+
+  } catch (err) {
+    alert("give permission to see the pictures");
+  }
+};
+
+document.getElementById("captureBtn").onclick = () => {
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  ctx.drawImage(video, 0, 0);
+
+  const image = canvas.toDataURL("image/png");
+
+  console.log(image);
+};
+</script>
+
+</body>
+</html>
